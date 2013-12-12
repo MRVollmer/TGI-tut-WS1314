@@ -1,0 +1,235 @@
+\include{includes/common_start}
+\include{includes/tutBlatt_methods}
+\include{amsmath}
+\tutnr{7}
+
+\section{Altlasten}
+\subsection{Ch1}
+\begin{frame}
+	\frametitle{CH1 -- Not even my final Form}
+	Kontextfreie Grammatiken werden in dieser Vorlesung durch Produktionsmengen der folgenden Form charakterisiert:
+\begin{itemize}
+	\item $P$ = Menge der Produktionen mit Form $v \rightarrow w$
+	\begin{itemize}
+		\item $v \in V^{+}$
+		\item $w \in ((V \setminus \{S\}) \bigcup T)^{+}$
+		\item $|v| \leq |w|$ oder $S \rightarrow \epsilon$
+	\end{itemize}
+\end{itemize}
+Grammatiken dieser Form lassen sich alle in Grammatiken dieser Form umwandeln (siehe Vorlesung bzw. Skript):
+\begin{itemize}
+	\item $P$ = Menge der Produktionen mit Form $\alpha A \beta \rightarrow \alpha B \beta$ oder $S \rightarrow A$ oder $A \rightarrow a$
+	\begin{itemize}
+		\item $A \in V$
+		\item $\alpha, \beta, B \in V^{*}, B \neq \epsilon$
+		\item $a in T$
+	\end{itemize}
+\end{itemize}
+Das ist wichtig weil:
+\begin{itemize}
+	\item Die untere Form ist geläufiger als Definition von kontextfreien Grammatiken
+	\item Dazu konstruierte TM bei der unteren Form u.U. einfacher sind
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Chompsky Abschlüsse}
+	\begin{tabular}{|*{5}{c|}}
+	\hline
+	&Ch3&Ch2&Ch1&Ch0\\
+	\hline
+	Name&regulär&kontextfrei&kontextsensitiv&rekursiv aufzählbar\\
+	\hline
+	Entscheidbar&$\checkmark$&$\checkmark$&$\checkmark$&semi\\
+	\hline
+	\glqq $\cdot$\grqq-Abschluss&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$\\
+	\hline
+	\glqq $-$\grqq-Abschluss&$\checkmark$&$\times$&$\checkmark$&$\times$\\
+	\hline
+	\glqq $\cup$\grqq-Abschluss&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$\\
+	\hline
+	\glqq $\cap$\grqq-Abschluss&$\checkmark$&$\times$&$\checkmark$&$\checkmark$\\
+	\hline
+	\glqq $*$\grqq-Abschluss&$\checkmark$&$\checkmark$&$\checkmark$&$\checkmark$\\
+	\hline
+	\end{tabular}
+	\begin{itemize}
+		\item \glqq $-$\grqq-Abschluss = Abgeschlossenheit unter Komplementbildung
+		\item Semientscheidbarkeit = $\exists$TM, die genau alle Wörter der Sprache akzeptiert, aber Wörter außerhalb der Sprache können Endlosschleifen erzeugen
+		\item nicht entscheidbar = nichtentscheidbar = unentscheidbar = Kann nicht für jedes Wort sagen ob es in der Sprache liegt oder nicht, kann aber semi-entscheidbar sein
+	\end{itemize}
+\end{frame}
+
+\subsection{Reduktion}
+
+\begin{frame}
+\frametitle{Reduktion}
+Aufgabe: Ist ein gegebenes $Problem$ A $attribut$?~\\~\\
+\begin{itemize}
+\item Nehme an, A ist $attribut$
+\item Suche ein geeignetes $Problem$ B, das bekanntermaßen (laut Vorlesung) $nicht$ $attribut$ ist
+\item Zeige: Wenn A $attribut$ ist, dann wäre B auch $attribut$
+\begin{itemize}
+	\item Transformiere \textbf{alle} Instanzen von B zu Instanzen von A, wobei diese Transformation $attribut$ \textbf{nicht beeinflussen} darf.
+\end{itemize}
+\item Widerspruch!
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\vspace{-1 cm}
+Ist die Sprache $L=\{\langle M \rangle \mid \text{TM M hat mind. einen nicht erreichbaren Zustand}\}$ entscheidbar?
+\begin{itemize}
+	\item Annahme: $L$ entscheidbar ($\Leftrightarrow \overline{L}$ entscheidbar)
+	\item Bekannt: Das Halteproblem ist nicht entscheidbar
+	\item Transformation f von (allen) Instanzen $\in$ Halt zu Instanzen von $\overline{L}$~\\ $f:(\langle M \rangle, w) \rightarrow \langle M' \rangle$
+	\item Konstruiere $M'$: $M'$ hat folgende Funktionsweise:
+	\begin{enumerate}
+		\item Leere das Band
+		\item Schreibe w auf das Band
+		\item Simuliere $M$
+		\item Gehe in einen zusätzlichen Zustand $q_s$
+	\end{enumerate}
+	\item Folgerung:
+	\begin{itemize}
+		\item $\langle M' \rangle = f((\langle M \rangle, w)) \in \overline{L}$
+		\item $\Leftrightarrow$ $M'$ hat keinen nicht erreichbaren Zustand
+		\item $\Leftrightarrow$ $M'$ geht in Zustand $q_s$
+		\item $\Leftrightarrow$ $M$ hält bei Eingabe w
+		\item $\Leftrightarrow (\langle M \rangle, w) \in HALT$
+	\end{itemize}
+	\item Also: $L$ entscheidbar $\Rightarrow \overline{L}$ entscheidbar $\Rightarrow$ HALT entscheidbar $\lightning$
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Mehr Übungen}
+	Ist die Sprache
+	\begin{enumerate}[$L_1 =$]
+		\item $\{\langle M \rangle \mid$ TM $M$ akzeptiert keine Eingabe$\}$
+		\item $\{\langle M \rangle \mid$ TM $M$ akzeptiert die Eingabe $\langle M \rangle$ nicht$\}$
+		\item $\{\langle M \rangle \mid$ TM $M$ ist minimal$\}$
+		\begin{itemize}
+			\item[] d.h. es gibt keine funktionsäquivalente Turingmaschine $N$ mit $|\langle N \rangle | < |\langle M \rangle |$
+			\item Beweis siehe Skript und/oder Tutorium 8
+		\end{itemize}
+	\end{enumerate}
+	entscheidbar?
+\end{frame}
+
+\subsection{Aufgabe B6 A3}
+\begin{frame}
+	\frametitle{Aufgabe B6 A3 rekursiv aufzählbare Mengen}
+	Welche der folgenden Mengen sind rekursiv aufz"ahlbar? \\
+	Beweisen Sie Ihre Aussage!
+	\begin{enumerate}
+		\item $M_2 := \{r \in \mathbb{R} \; | \; 0<r<1\}$
+	\end{enumerate}
+\end{frame}
+
+\section{Rekursionstheorem}
+\subsection{Rekursionstheorem erklären}
+\begin{frame}
+\begin{block}{Das Rekursionstheorem 1.Form}
+Existiert eine TM M, die die Funktion t: $\Sigma^* \times \Sigma^* \rightarrow \Sigma^*$ berechnet, dann existiert eine TM R die t($\langle R\rangle$,w) berechnet, wobei w die Eingabe ist.
+\end{block}
+Dieses Theorem ist nicht nur auf Turingmaschinen beschränkt, sondern kann auch auf jede beliebige turingvollständige Codierungsform (wie z.B. Programmiersprachen) ausgedehnt werden.
+\begin{block}{Das Rekursionstheorem 2.Form}
+Für jede berechenbare Funktion f: $\Sigma^*\rightarrow\Sigma^*$ existiert eine TM F und eine TM G, wobei F und G die gleiche Funktion berechnen und $f(\langle F\rangle)=\langle G\rangle$.\\
+\end{block}
+\end{frame}
+
+\subsection{SELF-Maschine / Quines erklären}
+\begin{frame}
+\frametitle{SELF-Maschine}
+Eine SELF-Maschine (auch Quine genannt) ist eine Turingmaschine, die ihre eigene Gödelnummer ausgibt und dann hält. Sie realisiert demnach die Funktion $t(\langle SELF\rangle,w)=\langle SELF\rangle$.\\
+Eine mögliche Art eine solche TM zu erstellen ist folgender:
+\begin{itemize}
+\item Man zerlegt die Turingmaschine in zwei Teile A und B.
+\item Teil A löscht die Eingabe und schreibt die Gödelnummer von Teil B aufs Band.
+\item Teil B liest die neue Eingabe w (seine eigene Gödelnummer) ein, schreibt die Gödelnummer der Turingmaschine aufs Band die bei beliebiger Eingabe das Wort w ausgibt, hängt daran w an und hält.
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+\frametitle{\glqq Übung\grqq}
+Beweisen Sie, dass es eine G"odelnummer $n = \langle\mathcal{M}\rangle \in
+\mathbb{N}_0$ zu einer Turingmaschine $\mathcal{M}$ gibt, die die Funktion\\
+$f_n(x) = (n+x)^2$ f"ur alle $x \in \mathbb{N}_0$ berechnet!
+\end{frame}
+
+\section{Formale Logik}
+\subsection{Wiederholung einiger Begriffe}
+\begin{frame}
+	\frametitle{Wiederholung einiger Begriffe}
+	\begin{itemize}
+		\item Quantoren
+		\begin{itemize}
+			\item Existenzquantor $\exists x$: \\ Aussage muss für mindestens ein x aus dem Universum gelten.
+			\item Allquantor $\forall x$: Aussage muss für alle x aus dem Universum gelten.
+			\item Vorsicht bei Schachtelung von Quantoren: \\ $\forall x \exists y: x = y$ ist etwas völlig anderes als $\exists y \forall x: x = y$.
+		\end{itemize}
+		\item Ein Universum ist die Menge über der man eine Aussage betrachtet.
+		\item Eine Relation drückt aus, dass zwei Objekte zueinander in Beziehung stehen.
+		\begin{itemize}
+			\item Sei $R$ die Gleichheit, dann gilt $R(x, y) \Leftrightarrow x = y$.
+		\end{itemize}
+		\item Eine Theorie ist eine Menge $Th(U, R)$ induziert über dem Tupel $(U, R)$ mit einem Universum $U$ und einer Relation $R$. \\ 
+		Eine Formel $\phi$ ist Element einer Theorie, falls sie in Bezug auf $U$ bzw. $R$ wahr ist.
+		\begin{itemize}
+			\item Sei $\phi = \forall x \exists y: R_1(x,y)$. Dann gilt $\phi \in Th(\mathbb{Z}, >)$ aber $\phi \notin Th(\mathbb{N}, >)$.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\subsection{B7 A2}
+\begin{frame}
+	\frametitle{Weitere Aufgaben: B7 A2}
+	Geben Sie f"ur folgendende Formeln an ob diese in den besagten Theorien liegen
+	\begin{enumerate}
+		\item Ist $\phi_1 = \forall x \exists y \forall z: x + y = z$ in $\text{Th}(\mathbb{N,+})$?
+		\item Ist $\phi_2 = \forall x \exists y \forall z \exists w: (x + z = w ) \wedge (x + y = w)$  in $\text{Th}(\mathbb{N},+)$?
+		\item Ist $\phi_3 = \forall x \forall y \forall z \forall w \forall v \exists s: \neg(x + w = y) \vee \neg(y + v = z) \vee (x + s = z)$ in $\text{Th}(\mathbb{N},+)$?
+		\item Sei $\text{Th}(\mathbb{N},<)$ die Theorie der nat"urlichen Zahlen mit der Relation "`echt kleiner"'. Zeigen Sie: $\text{Th}(\mathbb{N},<)$ ist entscheidbar.
+	\end{enumerate}
+\end{frame}
+\subsection{B7 A3}
+\begin{frame}
+	\frametitle{Weitere Aufgaben: B7 A3}
+	Geben Sie Modelle f"ur die folgenden pr"adikatenlogischen Formeln an! Geben Sie dazu
+	jeweils ein Universum $\mathcal{U}$\\
+	und eine Interpretation der Relationszeichen $R_i$ an!
+	\begin{enumerate}
+		\item $\phi_1 =$ \hspace*{0.2cm} $\forall \; x \; (R_1(x,x))$ \hspace*{5.3cm}[K1.1]\\
+		\hspace*{0.85cm} $\wedge \forall \; x,y \; (R_1(x,y) \leftrightarrow R_1(y,x))$
+		\hspace*{3.2cm} [K1.2]\\
+		\hspace*{0.85cm} $\wedge \forall \; x,y,z \; ((R_1(x,y) \wedge R_1(y,z)) \rightarrow
+		R_1(x,z))$ \hspace*{1cm} [K1.3]
+		\item $\phi_2 =$ \hspace*{0.2cm} $\phi_1$\\
+		\hspace*{0.85cm} $\wedge \forall \; x \; (R_1(x,x) \rightarrow \neg R_2(x,x))$
+		\hspace*{3.25cm} [K2.1]\\
+		\hspace*{0.85cm} $\wedge \forall \; x,y \; (\neg R_1(x,y) \rightarrow (R_2(x,y)
+		\oplus R_2(y,x)))$ \hspace*{1cm} [K2.2]\\
+		\hspace*{0.85cm} $\wedge \forall \; x,y,z \; ((R_2(x,y) \wedge R_2(y,z)) \rightarrow
+		R_2(x,z))$ \hspace*{1cm}  [K2.3]\\
+		\hspace*{0.85cm} $\wedge \forall \; x \; \exists \; y \, (R_2(x,y))$ \hspace*{4.8cm}
+		[K2.4]
+	\end{enumerate}
+\end{frame}
+%\subsection{B6 A4}
+%\begin{frame}
+%	\frametitle{Weitere Aufgaben: B6 A4}
+%	Sei $A \subseteq \mathbb{N}_0$ eine entscheidbare Menge. Zeigen Sie, dass
+%	$ B := \{x+2y^2+17+11^x \; | \; x,y \in A\}$ entscheidbar ist!
+%\end{frame}
+
+\section{Schluss}
+\subsection{Schluss}
+\begin{frame}
+\frametitle{Bis zum nächsten Mal!}
+\begin{center}
+  \includegraphics[width=1 \textheight]{images/xkcd_981.png}
+\end{center}
+\end{frame}
+
+\include{includes/common_end}
