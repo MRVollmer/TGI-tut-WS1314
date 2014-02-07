@@ -1,0 +1,210 @@
+\include{includes/common_start}
+\include{includes/tutBlatt_methods}
+\include{amsmath}
+
+\tutnr{13}
+
+\section{Übungsblatt 7}
+\subsection{Übungsblatt 7}
+
+\begin{frame}
+\frametitle{Best of Übungsblatt 7}
+\begin{itemize}
+	\item Abgaben: 5 von 21 (23.8\%)
+	\item Mindestens 50\% Punkte: 5 von 5 (100\%)
+	\item Durchschnittliche erreichte Punktzahl: 11.5
+\end{itemize}~\\~\\~\\
+Aufgabenverteilung
+\begin{enumerate}[{A}ufg{a}be 1:]
+	\item Gesamt: 18.25P (durchscnittlich 3.65)
+	\item Gesamt: 11.5P (durchschnittlich 2.3)
+	\item Gesamt: 15.75P (durchschnittlich 3.15)
+	\item Gesamt: 5.5P (durchschnittlich 1.1)
+	\item Gesamt: 3.75P (durchschnittlich 0.75)
+\end{enumerate}~\\~\\
+Übungsschein erhalten: 9 von 21 (42\%)
+\end{frame}
+
+
+\section{Fehlerkorrigierende Codes}
+\subsection{Erklärung}
+
+\begin{frame}
+	\frametitle{Systematische Codes}
+	Damit überprüft werden kann, ob ein Wort richtig übertragen wurde, müssen zusätzlich Daten übermittelt werden.\\
+	Eine Möglichkeit der Fehlerprüfung ist die Verwendung von Generatormatrizen.\\ 
+	Dabei werden Wörter der festen Länge k mit Wörter der Länge k+r kodiert. Dazu wird eine Generatormatrix der Form \[G=\left(\frac{I_k}{A}\right)\] verwendet, wobei $I_k$ die $k \times k$-Einheitsmatrix ist und A eine $r \times k$-Matrix. Das kodierte Wort $\omega_{\text{codiert}}$ erhält man aus dem dazugehörigen Wort $\omega$ mittels der Formel $G\omega=\omega_{\text{codiert}}.$\\
+\end{frame}
+\begin{frame}
+	\frametitle{Systematische Codes}
+	Zu der Generatormatrix gehört eine Prüfmatrix \[H=\left(A|I_r\right)\] mit deren Hilfe sich das Syndrom $s=H\omega_{\text{codiert}}$ ausrechnen lässt.\\ Ist $s=0$, wurde die Information im Rahmen der Fehlerkorrektur richtig übertragen. Ist $s\not = 0$ vergleicht man s mit den Spalten von H.\\ Sei $H_k$ die k-te Spalte von H.
+	\begin{itemize}
+	\item Gilt $H_k=s$ für exakt ein k, dann ist das k-te Bit im gesendeten Wort falsch.
+	\item Gilt $H_k=s$ für mehrere k, dann ist eine ungerade Anzahl der dazugehörigen Bits falsch.
+	\item Gilt $H_k\not=s$ für alle k, dann sind definitiv mehrere Bits falsch übertragen worden.
+	\end{itemize}
+\end{frame}
+\subsection{Aufgabe B13 A2}
+\begin{frame}
+\frametitle{Aufgabe B13 A2}
+Sei $\mathcal{C}$ ein bin"arer Code, der durch die folgende Generatormatrix gegeben
+ist:\\[4pt]
+$G = \left( \begin{array}{cccc}
+1 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1 \\
+1 & 1 & 0 & 0 \\
+0 & 0 & 1 & 1 \\
+1 & 1 & 1 & 1
+\end{array} \right)$\\[4pt]
+Dekodieren Sie die folgenden empfangenen W"orter!
+\begin{enumerate}
+\item $w_1 = (\begin{array}{ccccccc}1 & 1 & 0 & 1 & 0 & 1 & 1\end{array})$
+\item $w_2 = (\begin{array}{ccccccc}0 & 1 & 1 & 0 & 1 & 1 & 1\end{array})$
+\item $w_3 = (\begin{array}{ccccccc}0 & 1 & 1 & 1 & 0 & 0 & 0\end{array})$
+\end{enumerate}
+\end{frame}
+
+
+\section{Hamming-Code}
+\subsection{Erklärung}
+
+\begin{frame}
+\frametitle{Hamming-Code}
+\begin{itemize}
+	\item Eine Codierung zur Erkennung von bis zu 2-bit-Fehlern und Korrektur von 1-bit-Fehlern
+	\item n Paritätsbits sichern $2^n$ bits - 1 (Code für Fehlerfrei) - n
+\end{itemize}~\\~\\~\\
+\only<2->{Bildlich:~\\}
+\only<2>{$p_1$ $p_2$ $d_3$~\\ \textcolor{red}{$p_1$} $p_2$ \textcolor{red}{$d_3$}~\\$p_1$ \textcolor{red}{$p_2$} \textcolor{red}{$d_3$}}
+\only<3>{$p_1$ $p_2$ $d_3$ $p_4$ $d_5$ $d_6$ $d_7$~\\ \textcolor{red}{$p_1$} $p_2$ \textcolor{red}{$d_3$} $p_4$ \textcolor{red}{$d_5$} $d_6$ \textcolor{red}{$d_7$}~\\$p_1$ \textcolor{red}{$p_2$} \textcolor{red}{$d_3$} $p_4$ $d_5$ \textcolor{red}{$d_6$} \textcolor{red}{$d_7$}~\\$p_1$ $p_2$ $d_3$ \textcolor{red}{$p_4$} \textcolor{red}{$d_5$} \textcolor{red}{$d_6$} \textcolor{red}{$d_7$}}
+\only<4>{$p_1$ $p_2$ $d_3$ $p_4$ $d_5$ $d_6$ $d_7$ $p_8$ $d_9$ $d_{10}$ $d_{11}$ $d_{12}$ $d_{13}$ $d_{14}$ $d_{15}$~\\ \textcolor{red}{$p_1$} $p_2$ \textcolor{red}{$d_3$} $p_4$ \textcolor{red}{$d_5$} $d_6$ \textcolor{red}{$d_7$} $p_8$ \textcolor{red}{$d_9$} $d_{10}$ \textcolor{red}{$d_{11}$} $d_{12}$ \textcolor{red}{$d_{13}$} $d_{14}$ \textcolor{red}{$d_{15}$}~\\$p_1$ \textcolor{red}{$p_2$} \textcolor{red}{$d_3$} $p_4$ $d_5$ \textcolor{red}{$d_6$} \textcolor{red}{$d_7$} $p_8$ $d_9$ \textcolor{red}{$d_{10}$} \textcolor{red}{$d_{11}$} $d_{12}$ $d_{13}$ \textcolor{red}{$d_{14}$} \textcolor{red}{$d_{15}$}~\\$p_1$ $p_2$ $d_3$ \textcolor{red}{$p_4$} \textcolor{red}{$d_5$} \textcolor{red}{$d_6$} \textcolor{red}{$d_7$} $p_8$ $d_9$ $d_{10}$ $d_{11}$ \textcolor{red}{$d_{12}$ $d_{13}$ $d_{14}$ $d_{15}$}~\\$p_1$ $p_2$ $d_3$ $p_4$ $d_5$ $d_6$ $d_7$ \textcolor{red}{$p_8$ $d_9$ $d_{10}$ $d_{11}$ $d_{12}$ $d_{13}$ $d_{14}$ $d_{15}$}}
+\end{frame}
+
+\begin{frame}
+\frametitle{Beispiel}
+1100110  \hspace{1 cm}S~\\
+\only<2->{\textcolor{red}{1}1\textcolor{red}{0}0\textcolor{red}{1}1\textcolor{red}{0}  \hspace{1 cm}0~\\}
+\only<3->{1\textcolor{red}{10}01\textcolor{red}{10} \hspace{1 cm}0~\\}
+\only<4->{110\textcolor{red}{0110}  \hspace{1 cm}0~\\}
+\only<5->{$\Rightarrow$ Keine Fehler! Datenwort = 0110} ~\\~\\~\\~\\
+
+
+
+\only<6->{1100010  \hspace{1 cm}S~\\}
+\only<7->{\textcolor{red}{1}1\textcolor{red}{0}0\textcolor{red}{0}1\textcolor{red}{0}  \hspace{1 cm}1~\\}
+\only<8->{1\textcolor{red}{10}00\textcolor{red}{10}  \hspace{1 cm}0~\\}
+\only<9->{110\textcolor{red}{0010}  \hspace{1 cm}1~\\}
+\only<10->{$\Rightarrow$ Fehler an der Stelle $2^0 + 2^2 = 5$~\\Korrektur: 1100\textcolor{red}{1}10~\\$\Rightarrow$ repariertes Datenwort: 0110}
+
+
+\end{frame}
+
+\subsection{Aufgabe B13 A3}
+\begin{frame}
+\frametitle{Aufgabe B13 A3}
+Gegeben sei der $[7,4]$-Hamming-Code $\mathcal{C}_H$ mit der Erzeugermatrix\\[4pt]
+\begin{columns}
+\column[c]{0.5\textwidth}
+$G = \left( \begin{array}{cccc}
+1 & 1 & 0 & 1 \\
+1 & 0 & 1 & 1 \\
+1 & 0 & 0 & 0 \\
+0 & 1 & 1 & 1 \\
+0 & 1 & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1
+\end{array} \right)$\\[4pt]
+\column[c]{0.5\textwidth}
+und der Pr"ufmatrix\\[4pt]
+$H = \left( \begin{array}{ccccccc}
+0 & 0 & 0 & 1 & 1 & 1 & 1 \\
+0 & 1 & 1 & 0 & 0 & 1 & 1 \\
+1 & 0 & 1 & 0 & 1 & 0 & 1
+\end{array} \right)$.\\[4pt]
+\end{columns}
+\vspace{0.5cm}
+Dekodieren Sie die folgenden empfangenen W"orter!
+\begin{enumerate}
+\item $w_1 = (\begin{array}{ccccccc}0 & 0 & 0 & 1 & 1 & 1 & 1\end{array})$
+\item $w_2 = (\begin{array}{ccccccc}1 & 1 & 0 & 0 & 1 & 1 & 1\end{array})$
+\item $w_3 = (\begin{array}{ccccccc}1 & 1 & 1 & 0 & 0 & 0 & 0\end{array})$
+\item $w_4 = (\begin{array}{ccccccc}0 & 1 & 1 & 1 & 1 & 1 & 1\end{array})$
+\end{enumerate}
+\end{frame}
+
+\section{Kanäle und Kryptographie}
+\subsection{Verschlüsselungscodes}
+\begin{frame}
+	\frametitle{Verschlüsselungscodierungen}
+	\begin{itemize}
+		\item Caesar-Chiffre: Rotiere alle Zeichen um $n$ Stellen im Alphabet
+		\begin{itemize}
+			\item $\Rightarrow$ $n$ ist Schlüssel
+		\end{itemize}
+		\item Vigenère-Chiffre: Rotiere alle Zeichen um $K_n$ Stellen
+		\begin{itemize}
+			\item $K_n$ ist die $n$te Stelle des Schlüssels mod $|K|$
+			\item $|K|$ ist Schlüssel
+		\end{itemize}
+		\item One-Time-Pad (OTP), wie Vigenère, aber $|K| = |M|$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Verbindung mit Informationtheorie}
+	\begin{itemize}
+		\item Eine Chiffre ist perfect sicher, wenn $p(M|C) = p(M)$
+		\begin{itemize}
+			\item $p(M)$ ist die Wahrscheinlichkeit  die Nachricht $M$ zu erraten
+			\item $p(M|C)$ ist die Wahrscheinlichkeit die Nachricht $M$ zu erraten, wenn $C$ bekannt ist.
+			\item Nach Satz von Bayes gilt dann: $p(C|M)=\frac{p(M|C)\cdot p(C)}{p(M)} = p(C)$
+			\item One-Time-Pads sind perfekt sicher
+		\end{itemize}
+		\item Für perfekte Sicherheit gilt: $H(M|C) = H(M)$ also auch $I(M;C) = 0$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Commitments}
+	Beispiel:
+	\begin{enumerate}
+		\item Alice sendet Bob ein verschlüsseltes Bit $b$ (bspw. Münzwurfergebnis) ohne Schlüssel
+		\item Bob sendet Alice ein unverschlüsseltes Bit $b'$ (bspw. seine Wette)
+		\item Alice sendet Bob den Schlüssel
+		\item $b \oplus b'$ könnte nun das Ergbnis des Münzwurfs sein (bei 1 gewinnt Alice, bei 0 Bob)
+	\end{enumerate}
+	Begriffe:
+	\begin{description}
+		\item[Commitment] $c = commit(b)$: $c$ legt $b$ fest, ohne den Wert von $b$ offenzulegen
+		\item[Unveiling] $unveil(c$): gibt den Wert von $b$, der durch $c$ festegelegt wurde aus
+		\item[Binding] $p(unveil(commit(b)) \neq b)$ vernachlässigbar
+		\item[Hiding] $p(b|c) - p((1-b)|c)$ vernachläsigbar
+	\end{description}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Pedersen-Commitments}
+	Sei G eine zyklische Gruppe, g und h Erzeuger von G und m die Nachricht. Dann sind:
+	\begin{itemize}
+		\item commit(m) = $g^m \cdot h^r$, wobei $r$ zufällig gewählt wird
+		\item unveil(c) = Gebe $m$ und $r$ bekannt
+	\end{itemize}~\\~\\~\\
+	Pederson-Commitments erfüllen Binding und Hiding
+	\begin{itemize}
+		\item Die Sicherheit baut auf der Schwierigkeit des Berechnens von diskreten Logarithmen auf
+	\end{itemize}
+\end{frame}
+
+\section{Schluss}
+\subsection{Schluss}
+\begin{frame}
+\frametitle{Bis zum nächsten Mal!}
+%TODO change the comic
+\begin{center}
+	\includegraphics[height=0.85\textheight]{images/xkcd_336}
+\end{center}
+\end{frame}
+
+\include{includes/common_end}
